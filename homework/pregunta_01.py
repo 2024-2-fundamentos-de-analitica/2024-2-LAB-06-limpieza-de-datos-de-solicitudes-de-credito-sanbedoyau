@@ -35,7 +35,7 @@ def pregunta_01():
     # - El barrio belen, tiene tilde (é), cosa que puede causar conflicto en la codificación, remplazando é por ¿, por lo que se hace el remplazo nuevamente, sin tilde
     # - El barrio antonio nariño tiene un problema similar a belen, pero con la ñ, por lo que también se hace el inverso
     # - El resto de barrios se les limpian posibles . que puedan contener
-    #df['barrio'] = df['barrio'].apply(lambda x: str(x).replace('no._', 'no.').replace('no.', 'no_').replace('.', ''))
+    df['barrio'] = df['barrio'].apply(lambda x: str(x).replace('no._', 'no.').replace('no.', 'no_').replace('.', '').replace('bel¿n', 'belen').replace('¿','ñ'))
 
     # Se cambia el tipo de las columnas 'estrato' y 'comuna_ciudadano' (irrelevante)
     df['estrato'] = df['estrato'].astype(int)
@@ -51,11 +51,10 @@ def pregunta_01():
     # Limpieza de la columna 'línea_credito' donde hay algunos espacios en blanco (que fueron remplazados con _) 
     # o palabras con una división poco coherente, por lo que se corrige
     df['línea_credito'] = df['línea_credito'].apply(lambda x: str(x).replace('_', ' ').replace('cap.', 'cap '))
-    df = df.drop_duplicates()       # Eliminar valores duplicador
-    create_ouptput_directory(out_path)
-    df.to_csv(f'{out_path}/solicitudes_de_credito.csv', sep = ';')
-    print(len(df['barrio'].unique().tolist()))
 
-# cordoba
+    df = df.drop_duplicates()                                       # Eliminar valores duplicados
+    create_ouptput_directory(out_path)                              # Limpiar el directorio de outputs
+    df.to_csv(f'{out_path}/solicitudes_de_credito.csv', sep = ';')  # Crear el archivo csv para el dataset
+    print(df['barrio'].value_counts()[4])
 
 pregunta_01()
