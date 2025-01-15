@@ -25,7 +25,7 @@ def pregunta_01():
     for column in df.columns:                                                                           # Limpieza general a cada columna
         if (df[column].dtype != object):
             continue
-        df[column] = df[column].apply(lambda x: x.lower().strip().strip('-').strip('_').replace(' ', '_').replace('-', '_'))
+        df[column] = df[column].apply(lambda x: str(x).lower().strip().strip('-').strip('_').replace(' ', '_').replace('-', '_'))
     
     # Limpieza de la columna 'idea_negocio', donde algunos registros terminaban con 'de', 'en', 'el' o 'y', por lo que se eliminan estas últimas palabras
     df['idea_negocio'] = df['idea_negocio'].apply(lambda x: '_'.join(x.split('_')[:-1]).strip('_') if x.split('_')[-1] in ('de', 'en', 'el', 'y') else x)
@@ -55,6 +55,6 @@ def pregunta_01():
     df = df.drop_duplicates()                                       # Eliminar valores duplicados
     create_ouptput_directory(out_path)                              # Limpiar el directorio de outputs
     df.to_csv(f'{out_path}/solicitudes_de_credito.csv', sep = ';')  # Crear el archivo csv para el dataset
-    print(df['barrio'].value_counts()[4])
 
-pregunta_01()
+if __name__ == '__main__':
+    pregunta_01()
