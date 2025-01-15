@@ -20,7 +20,7 @@ def pregunta_01():
         os.makedirs(output_directory)
     in_path = 'files/input'         # Path del directorio de inputs
     out_path = 'files/output'       # Path del directorio de outputs
-    df = pd.read_csv(f'{in_path}/solicitudes_de_credito.csv', sep = ';', index_col = 'Unnamed: 0')      # Importar el dataframe
+    df = pd.read_csv(f'{in_path}/solicitudes_de_credito.csv', sep = ';', index_col = 0)                 # Importar el dataframe
     df = df.dropna()                                                                                    # Eliminar registros que contienen nulos
     for column in df.columns:                                                                           # Limpieza general a cada columna
         if (df[column].dtype != object):
