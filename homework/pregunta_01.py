@@ -31,7 +31,7 @@ def pregunta_01():
     df['idea_negocio'] = df['idea_negocio'].apply(lambda x: '_'.join(x.split('_')[:-1]).strip('_') if x.split('_')[-1] in ('de', 'en', 'el', 'y') else x)
 
     # Limpieza de la columna 'barrio', donde los registros conflictivos son los siguientes:
-    # - Algunos barrios tienen numerales. Por ejemplo bombona no 1. El problema es que algunos están escritos como no. 1, y otros sin espacio
+    # - Algunos barrios tienen numerales. Por ejemplo bombona no 1. El problema es que algunos están escritos como no. 1, y otros sin espacio (no.1)
     # - El barrio belen, tiene tilde (é), cosa que puede causar conflicto en la codificación, remplazando é por ¿, por lo que se hace el remplazo nuevamente, sin tilde
     # - El barrio antonio nariño tiene un problema similar a belen, pero con la ñ, por lo que también se hace el inverso
     # - El resto de barrios se les limpian posibles . que puedan contener
@@ -55,6 +55,7 @@ def pregunta_01():
     df = df.drop_duplicates()                                       # Eliminar valores duplicados
     create_ouptput_directory(out_path)                              # Limpiar el directorio de outputs
     df.to_csv(f'{out_path}/solicitudes_de_credito.csv', sep = ';')  # Crear el archivo csv para el dataset
+    print(df['barrio'].value_counts().tolist())
 
 if __name__ == '__main__':
     pregunta_01()
